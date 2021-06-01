@@ -1,0 +1,3 @@
+﻿  user.cpp
+C:\Users\Youssef\source\repos\EventScheduler\user.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
+  EventScheduler.vcxproj -> C:\Users\Youssef\source\repos\EventScheduler\Debug\EventScheduler.exe
