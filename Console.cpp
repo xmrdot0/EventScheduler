@@ -235,6 +235,20 @@ void Console::add_event()
     this->usr.addEvent(e);
 }
 
+bool canBeAdded(event newEvent, vector<event> events) {
+    dateTimeGenerator T;
+    for (int i=0; i< events.size(); i++)
+    {
+        if (T.compTime(newEvent.getStartDate(),events[i].getEndDate()) == 1)
+            return true;
+        else if (T.compTime(newEvent.getEndDate(), events[i].getStartDate()) == -1)
+            return true;
+        return false;
+
+    }
+}
+
+
 bool Console::check_date(int day, int month, int year, int minutes, int hours)
 {
     int currYr = dateTimeGenerator::getYear();
