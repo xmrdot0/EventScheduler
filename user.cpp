@@ -5,7 +5,6 @@
 #include "event.h"
 #include "dateTimeGenerator.cpp"
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 void user::addEvent(event e) {
@@ -29,27 +28,8 @@ void user::updateEvent(event e) {
    cout<<"Sorry... This event doesn't exist !"<<endl;
 
 }
-bool sortComparator(event e1, event e2, bool start = 1) {
-    if (start)
-    {
-        if (dateTimeGenerator::compTime(e1.getStartDate(), e2.getStartDate()) == 1)
-            return 0;
-        return 1;
-    }
-    else {
-        if (dateTimeGenerator::compTime(e1.getReminderDate(), e2.getReminderDate()) == 1)
-            return 0;
-    }
-}
 
 void user::displayEvents() {
-    cout << "\nUNSORTED:\n";
-    for (event ev : this->events)
-    {
-        ev.getInfo();
-    }
-    cout << "\nSORTED:\n";
-    sort(this->events.begin(), this->events.end(), &sortComparator);
     for (event ev : this->events)
     {
         ev.getInfo();
