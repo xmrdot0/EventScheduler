@@ -108,7 +108,7 @@ public:
                  << startDate.tm_mday << " " << startDate.tm_mon << " " << startDate.tm_year << " " << startDate.tm_hour << " " << startDate.tm_min << endl
                  << endDate.tm_mday << " " << endDate.tm_mon << " " << endDate.tm_year << " " << endDate.tm_hour << " " << endDate.tm_min << endl
                  << reminder.tm_mday << " " << reminder.tm_mon << " " << reminder.tm_year << " " << reminder.tm_hour << " " << reminder.tm_min;
-            if (flag < events.size() - 1) //@yehia 
+            if (flag < events.size() - 1)
                 file << endl;
             flag++;
         }

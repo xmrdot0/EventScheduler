@@ -127,9 +127,13 @@ void Console::add_event()
     cout << "\n---Enter EVENT details---\n";
 
     cout << "Enter event name: ";
-    cin >> name;
+    getline(cin, name);
+    //cin >> name;
+    cin.ignore();
     cout << "Enter event place: ";
-    cin >> place;
+    getline(cin, place);
+    cin.ignore();
+    //cin >> place;
     cout << endl;
 
     event e;
@@ -247,7 +251,7 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 }
 void Console::del_event() {}
 
-void Console::disp_event() {}
+void Console::disp_event() { this->usr.displayEvents(); }
 
 void Console::update_event() {
     event e;

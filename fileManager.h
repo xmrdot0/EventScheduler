@@ -1,3 +1,4 @@
+//useless header dont include
 #ifndef __fManager__
 #define __fManager__
 

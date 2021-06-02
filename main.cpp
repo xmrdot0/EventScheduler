@@ -16,6 +16,8 @@ int main()
     vector<user> users;
 
     fileManager::readUsers(users);
+
+    //read for our main user only? save processing power
     /* for (user usr : users) //@yehia
          fileManager::readEvents(usr.events, usr.getName());*/
 

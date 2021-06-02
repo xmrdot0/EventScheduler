@@ -1,3 +1,4 @@
+//useless header dont include
 #ifndef __dateTime__
 #define __dateTime__
 #define _CRT_NONSTDC_NO_DEPRECATE
