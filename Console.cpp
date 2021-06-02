@@ -6,9 +6,14 @@
 #include "user.h"
 #include "event.h"
 #include <vector>
+#include <algorithm>
 #include "dateTimeGenerator.cpp"
 using namespace std;
-
+bool sortComparator(event e1, event e2) {
+    if (dateTimeGenerator::compTime(e1.getStartDate(), e2.getStartDate()) == 1)
+        return 0;
+    return 1;
+}
 Console::Console(vector<user> &users)
 {
     this->users = users;
@@ -135,8 +140,9 @@ void Console::add_event()
     cin.ignore();
     //cin >> place;
     cout << endl;
-
     event e;
+    e.setName(name);
+    e.setPlace(place);
     while (true)
     {
 
@@ -231,7 +237,6 @@ void Console::add_event()
             }
         }
     }
-    //call @yehia's checker function, if true:
     this->usr.addEvent(e);
 }
 
@@ -265,7 +270,15 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 }
 void Console::del_event() {}
 
-void Console::disp_event() { this->usr.displayEvents(); }
+void Console::disp_event() { 
+    cout << "\nUNSORTED:\n";
+    this->usr.displayEvents();
+
+    cout << "\nSORTED:\n";
+    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
+    this->usr.displayEvents();
+
+}
 
 void Console::update_event() {
     event e;
