@@ -13,6 +13,21 @@ bool sortComparator(event e1, event e2) {
     if (dateTimeGenerator::compTime(e1.getStartDate(), e2.getStartDate()) == 1)
         return 0;
     return 1;
+}   
+bool canBeAdded(event newEvent, vector<event> events) {
+
+    if (events.empty())
+    {
+        return true;
+    }
+    for (int i = 0; i < events.size(); i++)
+    {
+        if (dateTimeGenerator::compTime(newEvent.getStartDate(), events[i].getEndDate()) == 1)
+            return true;
+        else if (dateTimeGenerator::compTime(newEvent.getEndDate(), events[i].getStartDate()) == -1)
+            return true;
+    }
+    return false;
 }
 Console::Console(vector<user> &users)
 {
@@ -56,9 +71,8 @@ void Console::driver()
             exit = true;
             break;
         }
-        cout << "\n***Successfull!***\n";
-        // check all events for completed -check
-        this->usr.checkReminders();
+        //not working
+        //this->usr.checkReminders();
     }
 }
 int Console::mainMenu()
@@ -127,22 +141,22 @@ void Console::landingPage()
 
 void Console::add_event()
 {
+    event e;
     string name, place;
     int day, month, year, hours, minutes;
     cout << "\n---Enter EVENT details---\n";
 
     cout << "Enter event name: ";
+    cin.ignore();
     getline(cin, name);
-    //cin >> name;
-    cin.ignore();
-    cout << "Enter event place: ";
-    getline(cin, place);
-    cin.ignore();
-    //cin >> place;
-    cout << endl;
-    event e;
     e.setName(name);
+
+    cout << "Enter event place: ";
+    cin.ignore();
+    getline(cin, place);
     e.setPlace(place);
+
+    cout << endl;
     while (true)
     {
 
@@ -237,19 +251,13 @@ void Console::add_event()
             }
         }
     }
-    this->usr.addEvent(e);
-}
-
-bool canBeAdded(event newEvent, vector<event> events) {
-    dateTimeGenerator T;
-    for (int i=0; i< events.size(); i++)
+    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
+    if (canBeAdded(e, this->usr.events))
     {
-        if (T.compTime(newEvent.getStartDate(),events[i].getEndDate()) == 1)
-            return true;
-        else if (T.compTime(newEvent.getEndDate(), events[i].getStartDate()) == -1)
-            return true;
-        return false;
-
+        this->usr.addEvent(e);
+    }
+    else {
+        cout << "***ERROR! conflicting with existing events***";
     }
 }
 
@@ -271,6 +279,11 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 void Console::del_event() {}
 
 void Console::disp_event() { 
+    if (this->usr.events.empty())
+    {
+        cout << "\nYou do not have any events!" << endl;
+        return;
+    }
     cout << "\nUNSORTED:\n";
     this->usr.displayEvents();
 
