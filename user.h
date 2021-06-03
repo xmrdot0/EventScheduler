@@ -31,6 +31,7 @@ public:
     string getName();
     string getPassword();
 
+    void checkDoneEvents();
     void checkReminders();
 };
 #endif

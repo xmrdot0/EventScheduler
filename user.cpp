@@ -55,7 +55,17 @@ void user::checkReminders()
         }
     }
 } 
-
+void user::checkDoneEvents()
+{
+    for (auto it = events.begin(); it != events.end(); ++it)
+    {
+        if ((*it).getDone() == false)
+        {
+            doneEvents.push(*it);
+            events.erase(it);
+        }
+    }
+}
 void user:: update_menu(event &e){
    int c; 
     cout <<"Please Enter Your choice:";
