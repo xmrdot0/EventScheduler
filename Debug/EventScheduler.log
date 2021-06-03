@@ -1,14 +1,5 @@
 ﻿  Console.cpp
-C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(23,23): warning C4018: '<': signed/unsigned mismatch
-  event.cpp
-  fileManager.cpp
-C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(111,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(109,22): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(145,22): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
-C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(111,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(145,22): warning C4018: '<': signed/unsigned mismatch
-  user.cpp
-C:\Users\Youssef\source\repos\EventScheduler\user.cpp(19,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  LINK : C:\Users\Youssef\source\repos\EventScheduler\Debug\EventScheduler.exe not found or not built by the last incremental link; performing full link
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(25,23): warning C4018: '<': signed/unsigned mismatch
   EventScheduler.vcxproj -> C:\Users\Youssef\source\repos\EventScheduler\Debug\EventScheduler.exe

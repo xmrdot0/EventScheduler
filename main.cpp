@@ -11,21 +11,18 @@
 using namespace std;
 int main()
 {
-
     //preprocessing
     vector<user> users;
-
     fileManager::readUsers(users);
-
-    //read for our main user only? save processing power
-    /* for (user usr : users) //@yehia
-         fileManager::readEvents(usr.events, usr.getName());*/
 
     //main program
     Console c(users);
 
+    cout << "users in main: " << users.size() << endl; // this doesnt work
+    cout << "users in console from main: " << c.users.size() << endl;
+   
     //save data
-    fileManager::writeUsers(users);
-    // for (user usr : users)
-    //     fileManager::writeEvents(usr.<events>, usr.getName());
+    fileManager::writeUsers(c.users);
+    fileManager::writeEvents(c.usr.events,c.usr.getName());
+
 }

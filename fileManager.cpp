@@ -54,23 +54,21 @@ public:
         int flag = 0;
         while (!file.eof())
         {
-
             string tmp;
-
             //getline(file, tmp);
             file >> tmp;
             if (tmp == "")
                 break;
             currentEvent.setName(tmp);
 
-            string tmp2;
 
+            string tmp2;
             //getline(file,tmp2);
             file >> tmp2;
             currentEvent.setPlace(tmp2);
 
             int tmp3;
-            file >> tmp2;
+            file >> tmp3;
             currentEvent.setDone(tmp3);
 
             int day, month, year, hour, minutes;
@@ -118,6 +116,8 @@ public:
     static void readUsers(vector<user> &users)
     {
         ifstream file("users.txt", ios::in);
+        if (file.peek() == std::ifstream::traits_type::eof())
+            return;
         if (file.fail())
         {
             return;
@@ -133,7 +133,7 @@ public:
         }
         file.close();
     }
-    static void writeUsers(vector<user> users)
+    static void writeUsers(vector<user> &users)
     {
         ofstream file;
         file.open("users.txt", ios::out);

@@ -15,7 +15,7 @@ public:
     string openF(string userName);
     static void readEvents(vector<event> &events, string userName);
     static void writeEvents(vector<event> &events, string userName);
-    static void writeUsers(vector<user> users);
+    static void writeUsers(vector<user> &users);
     static void readUsers(vector<user> &users);
 };
 #endif

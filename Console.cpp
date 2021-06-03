@@ -8,6 +8,8 @@
 #include <vector>
 #include <algorithm>
 #include "dateTimeGenerator.cpp"
+#include "fileManager.cpp"
+
 using namespace std;
 bool sortComparator(event e1, event e2) {
     if (dateTimeGenerator::compTime(e1.getStartDate(), e2.getStartDate()) == 1)
@@ -37,19 +39,36 @@ Console::Console(vector<user> &users)
 
 void Console::Login()
 {
-    string username, password;
-    cout << "Enter username: ";
-    cin >> username;
-    cout << "Enter password: ";
-    cin >> password;
-    // check the user name and password in the users datastructure
-    //else print "the username or password is incorrect please try again"
-    //this->user = usr
+    bool success = false;
+    while (true) {
+        string username, password;
+        cout << "Enter username: ";
+        cin >> username;
+        cout << "Enter password: ";
+        cin >> password;
+
+        for (user u : users) {
+            if (u.getName() == username && u.getPassword() == password)
+            {
+                success = true;
+                this->usr = u;
+                break;
+            }
+        }
+        if (success) {
+            break;
+        }
+        else {
+            cout << "\n***Incorrect user name or password! please try again***" << endl;
+        }
+    }
+    cout << "\n\t***Login Successfull***" << endl;
     driver();
 }
 
 void Console::driver()
 {
+    fileManager::readEvents(this->usr.events, usr.getName());
     bool exit = false;
     while (!exit)
     {
@@ -99,12 +118,29 @@ int Console::mainMenu()
 void Console::Register()
 {
     string username, password;
-    cout << "Enter a username: ";
-    cin >> username;
-    cout << "Enter a password: ";
-    cin >> password;
-    // create new user
+    while (true) {
+        cout << "Enter a username: ";
+        cin >> username;
+        cout << "Enter a password: ";
+        cin >> password;
+
+        bool found = false;
+        for (user u : this->users) {
+            if (u.getName() == username)
+            {
+                found = true;
+                cout << "\n***User name already exists! please pick another one ***" << endl;
+                break;
+            }
+        }
+        if (!found) {
+            break;
+        }
+    }
     cout << "\n\t***Registration Successfull***" << endl;
+    this->usr.setName(username);
+    this->usr.setPassword(password);
+    this->users.push_back(usr);
     driver();
 }
 void Console::landingPage()
