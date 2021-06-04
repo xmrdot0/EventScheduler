@@ -41,7 +41,15 @@ string user::getPassword() { return this->password; }
 
 void user::setName(string name) { this->userName = name; }
 void user::setPassword(string password) { this->password = password; }
-void user::displayDoneEvents() {}
+void user::displayDoneEvents(stack<event> s)
+{
+    while (!s.empty())
+    {
+        event e = s.top();
+        e.getInfo();
+        s.pop();
+    }
+}
 
 void user::checkReminders()
 {

@@ -24,7 +24,7 @@ public:
     void addEvent(event e);
     void deleteEvent(event e);
     void updateEvent(event e);
-    void displayDoneEvents();
+    void displayDoneEvents(stack<event> s);
     void displayEvents();
     void setName(string name);
     void setPassword(string password);
