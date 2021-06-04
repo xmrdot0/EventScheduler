@@ -17,9 +17,6 @@ int main()
 
     //main program
     Console c(users);
-
-    cout << "users in main: " << users.size() << endl; // this doesnt work
-    cout << "users in console from main: " << c.users.size() << endl;
    
     //save data
     fileManager::writeUsers(c.users);

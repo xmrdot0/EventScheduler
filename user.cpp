@@ -33,6 +33,7 @@ void user::displayEvents() {
     for (event ev : this->events)
     {
         ev.getInfo();
+        cout << endl;
     }
 }
 
@@ -47,7 +48,8 @@ void user::checkReminders()
 {
     for (event ev : this->events)
     {
-        if (!ev.getReminded() && (dateTimeGenerator::compTime(ev.getReminderDate(), dateTimeGenerator::getDateTime()) == 0))
+        //if reminder time not greater than curr date
+        if (ev.getReminded()==false && (dateTimeGenerator::compTime(ev.getReminderDate(), dateTimeGenerator::getDateTime()) != 1))
         {
             cout << "\n***REMINDER!***\n";
             ev.getInfo();

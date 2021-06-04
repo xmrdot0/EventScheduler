@@ -16,6 +16,11 @@ bool sortComparator(event e1, event e2) {
         return 0;
     return 1;
 }   
+bool sortbyReminderComparator(event e1, event e2) {
+    if (dateTimeGenerator::compTime(e1.getReminderDate(), e2.getReminderDate()) == 1)
+        return 0;
+    return 1;
+}
 bool canBeAdded(event newEvent, vector<event> events) {
 
     if (events.empty())
@@ -91,7 +96,7 @@ void Console::driver()
             break;
         }
         //not working
-        //this->usr.checkReminders();
+        this->usr.checkReminders();
     }
 }
 int Console::mainMenu()
@@ -183,13 +188,15 @@ void Console::add_event()
     cout << "\n---Enter EVENT details---\n";
 
     cout << "Enter event name: ";
-    cin.ignore();
-    getline(cin, name);
+    /*cin.ignore();
+    getline(cin, name);*/
+    cin >> name;
     e.setName(name);
 
     cout << "Enter event place: ";
-    cin.ignore();
-    getline(cin, place);
+    /*cin.ignore();
+    getline(cin, place);*/
+    cin >> place;
     e.setPlace(place);
 
     cout << endl;
@@ -214,7 +221,7 @@ void Console::add_event()
         }
         else
         {
-            e.setStartDate(day, month, year, minutes, hours);
+            e.setStartDate(day, month, year, hours, minutes);
             break;
         }
     }
@@ -241,7 +248,7 @@ void Console::add_event()
         }
         else
         {
-            e.setEndDate(day, month, year, minutes, hours);
+            e.setEndDate(day, month, year, hours, minutes);
             if (dateTimeGenerator::compTime(e.getEndDate(), e.getStartDate()) != 1)
             {
                 cout << "***(INVALID!)END date smaller than or equal START date***" << endl;
@@ -275,8 +282,8 @@ void Console::add_event()
         }
         else
         {
-            e.setReminder(day, month, year, minutes, hours);
-            if (dateTimeGenerator::compTime(e.getReminderDate(), e.getEndDate()) != -1) //bug here, reminder date can be greater than end date???
+            e.setReminder(day, month, year, hours, minutes);
+            if (dateTimeGenerator::compTime(e.getReminderDate(), e.getStartDate()) != -1) 
             {
                 cout << "\n***(INVALID!)reminder date greater than or equal endDate***" << endl;
                 continue;
@@ -300,14 +307,19 @@ void Console::add_event()
 
 bool Console::check_date(int day, int month, int year, int minutes, int hours)
 {
-    int currYr = dateTimeGenerator::getYear();
-    int currD = dateTimeGenerator::getDay();
-    int currMon = dateTimeGenerator::getMonth();
-
+    tm t = dateTimeGenerator::getDateTime();
+    int currYr = t.tm_year;
+    int currD = t.tm_mday;
+    int currMon = t.tm_mon;
+    int currHour = t.tm_hour;
+    int currMin = t.tm_min;
     if (
-        (year < currYr) || (month > 12) || (month < 1) || (day < 1) || (day > 31) ||
+        (month > 12) || (month < 1) || (day < 1) || (day > 31) || (minutes < 0) || (hours < 0) ||
+        (year < currYr) || 
+        ((year == currYr) && (month < currMon)) ||
         ((year == currYr) && (month == currMon) && (day < currD)) ||
-        ((year == currYr) && (month < currMon)) || (minutes < 0) || (hours < 0))
+        ((year == currYr) && (month == currMon) && (day == currD) && (hours<currHour)) || 
+        ((year == currYr) && (month == currMon) && (day == currD) && (hours == currHour)) && (minutes < currMin)) 
         return 0;
 
     return 1;
@@ -320,13 +332,22 @@ void Console::disp_event() {
         cout << "\nYou do not have any events!" << endl;
         return;
     }
-    cout << "\nUNSORTED:\n";
-    this->usr.displayEvents();
+    int startDate;
+    while (true)
+    {
+        cout << "Press 0 to sort by start date or 1 to sort by reminder date" << endl;
+        cin >> startDate;
+        if (startDate == 1) {
+            sort(this->usr.events.begin(), this->usr.events.end(), sortbyReminderComparator);
+            break;
+        }
+        else if (startDate == 0) {
+            sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
+            break;
+        }
+    }
 
-    cout << "\nSORTED:\n";
-    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
     this->usr.displayEvents();
-
 }
 
 void Console::update_event() {
@@ -352,6 +373,5 @@ void Console::update_event() {
 
 
     usr.updateEvent(e);
-} // TODO:: youssef ayman
-
+}
 Console::~Console() {}
