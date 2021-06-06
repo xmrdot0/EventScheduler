@@ -92,6 +92,9 @@ void Console::driver()
             disp_event();
             break;
         case 5:
+            disp_done_event();
+            break;
+        case 6:
             exit = true;
             break;
         }
@@ -107,12 +110,13 @@ int Console::mainMenu()
     cout << "1. Add Event" << endl
          << "2. Update event" << endl
          << "3. Delete event" << endl
-         << "4. Display events" << endl
-         << "5. Exit" << endl;
+         << "4. Display upcoming events" << endl
+         << "5. Display done events" << endl
+         << "6. Exit" << endl;
     cout << "Enter Your Choice: ";
 
     cin >> input;
-    while (input < 1 || input > 5)
+    while (input < 1 || input > 6)
     {
         cout << "Invalid input please try again" << endl;
         cin >> input;
@@ -322,7 +326,7 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 }
 void Console::del_event() {
     if (this->usr.events.empty()) {
-        cout << "You do not have any events!" << endl;
+        cout << "\nYou do not have any events to delete!\n";
         return;
     }
     sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
@@ -343,11 +347,18 @@ void Console::del_event() {
     this->usr.events.erase(this->usr.events.begin() + num);
     cout << "Successfully deleted event!" << endl;
 }
-
+void Console::disp_done_event() {
+    this->usr.checkDoneEvents();
+    if (this->usr.doneEvents.empty()) {
+        cout << "\nYou do not have any done events!\n";
+        return;
+    }
+    this->usr.displayDoneEvents(this->usr.doneEvents);
+}
 void Console::disp_event() { 
     if (this->usr.events.empty())
     {
-        cout << "\nYou do not have any events!" << endl;
+        cout << "\nYou do not have any upcoming events!\n";
         return;
     }
     int startDate;
@@ -369,6 +380,10 @@ void Console::disp_event() {
 }
 
 void Console::update_event() {
+    if (this->usr.events.empty()) {
+        cout << "\nYou do not have any events to update!\n";
+        return;
+    }
     event e;
     cout << "Please Enter The Event Name" << endl;
     string name; cin >> name;

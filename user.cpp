@@ -48,6 +48,7 @@ void user::displayDoneEvents(stack<event> s)
     {
         event e = s.top();
         e.getInfo();
+        cout << endl;
         s.pop();
     }
 }
@@ -76,6 +77,7 @@ void user::checkDoneEvents()
         }
     }
 }
+//this shouldnt be here @youssef ayman, need to validate new input
 void user:: update_menu(event &e){
    int c; 
     cout <<"Please Enter Your choice:";
@@ -84,15 +86,15 @@ void user:: update_menu(event &e){
     <<"4: Update The End date"<<endl
     <<"5: Update The Reminder date"<<endl;
     cin>>c;
-     while (c < 1 || c > 5)
+    while (c < 1 || c > 5)
     {
         cout << "Invalid choice please try again" << endl;
         cout << "Enter Your Choice: ";
         cin >> c;
     }
       
-        string name ;
-        int day, month,  year,  hour, minutes;
+    string name;
+    int day, month, year, hour, minutes;
     switch (c)
     {
         
@@ -109,7 +111,6 @@ void user:: update_menu(event &e){
         cout << "Updated..." << endl;
         break;
     case 3:
-       
        cout<<"Enter The day"<<endl;
        cin>>day;
        cout<<"Enter The Month"<<endl;
@@ -154,5 +155,3 @@ void user:: update_menu(event &e){
 
     }
 }
- 
-// @yehia's checker(parameters)

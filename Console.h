@@ -10,7 +10,6 @@ class Console
 public:
     user usr;
     vector<user> users;
-  //  void update_menu(event& e);
 
 public:
     Console(vector<user> &users);
@@ -23,6 +22,7 @@ public:
     void add_event();
     void del_event();
     void disp_event();
+    void disp_done_event();
     void update_event();
     bool check_date(int day, int month, int year, int minutes, int hours);
 };
