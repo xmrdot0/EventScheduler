@@ -92,13 +92,14 @@ void Console::driver()
             disp_event();
             break;
         case 5:
-            disp_done_event();
+            disp_done_event(); //this crashes program 
             break;
         case 6:
             exit = true;
             break;
         }
         //not working
+        this->usr.checkDoneEvents();
         this->usr.checkReminders();
     }
 }
@@ -111,7 +112,7 @@ int Console::mainMenu()
          << "2. Update event" << endl
          << "3. Delete event" << endl
          << "4. Display upcoming events" << endl
-         << "5. Display done events" << endl
+         << "5. Display done events" << endl 
          << "6. Exit" << endl;
     cout << "Enter Your Choice: ";
 
@@ -285,7 +286,7 @@ void Console::add_event()
             e.setReminder(day, month, year, hours, minutes);
             if (dateTimeGenerator::compTime(e.getReminderDate(), e.getStartDate()) != -1) 
             {
-                cout << "\n***(INVALID!)reminder date greater than or equal endDate***" << endl;
+                cout << "\n***(INVALID!)reminder date greater than or equal startDate***" << endl;
                 continue;
             }
             else
@@ -348,6 +349,10 @@ void Console::del_event() {
     cout << "Successfully deleted event!" << endl;
 }
 void Console::disp_done_event() {
+    if (this->usr.events.empty()) {
+        cout << "\nYou do not have any done events!\n";
+        return;
+    }
     this->usr.checkDoneEvents();
     if (this->usr.doneEvents.empty()) {
         cout << "\nYou do not have any done events!\n";

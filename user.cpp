@@ -63,6 +63,7 @@ void user::checkReminders()
             cout << "\n***REMINDER!***\n";
             ev.getInfo();
             ev.setReminded();
+            cout << "look: " << ev.getReminded() << endl;
         }
     }
 } 
