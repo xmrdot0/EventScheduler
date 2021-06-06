@@ -188,14 +188,10 @@ void Console::add_event()
     cout << "\n---Enter EVENT details---\n";
 
     cout << "Enter event name: ";
-    /*cin.ignore();
-    getline(cin, name);*/
     cin >> name;
     e.setName(name);
 
     cout << "Enter event place: ";
-    /*cin.ignore();
-    getline(cin, place);*/
     cin >> place;
     e.setPlace(place);
 
@@ -324,7 +320,29 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 
     return 1;
 }
-void Console::del_event() {}
+void Console::del_event() {
+    if (this->usr.events.empty()) {
+        cout << "You do not have any events!" << endl;
+        return;
+    }
+    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
+    cout << "\nYour Events: \n";
+    for (int i = 0; i < this->usr.events.size(); i++) {
+        cout << i + 1 << "- ";
+        this->usr.events[i].getInfo();
+        cout << endl;
+    }
+    cout << "Enter number of event to delete: ";
+    int num;
+    cin >> num;
+    while (num<=0 || num>this->usr.events.size()) {
+        cout << "Enter valid number: ";
+        cin >> num;
+    }
+    num--;
+    this->usr.events.erase(this->usr.events.begin() + num);
+    cout << "Successfully deleted event!" << endl;
+}
 
 void Console::disp_event() { 
     if (this->usr.events.empty())
@@ -370,7 +388,6 @@ void Console::update_event() {
     cin >> minutes;
     e.setStartDate(day, month, year, hour, minutes);
     e.setName(name);
-
 
     usr.updateEvent(e);
 }

@@ -55,8 +55,8 @@ public:
         while (!file.eof())
         {
             string tmp;
-            //getline(file, tmp);
-            file >> tmp;
+            getline(file, tmp);
+            //file >> tmp;
             if (tmp == "")
                 break;
             currentEvent.setName(tmp);
