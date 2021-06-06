@@ -4,20 +4,17 @@
 #include "event.h"
 #include <iostream>
 #include "Console.h"
-
+#include "dateTimeGenerator.cpp"
 using namespace std;
 
 tm event::saveDate(int day, int month, int year, int hour, int minutes)
 {
-    string weekday[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
     tm timeinfo;
     timeinfo.tm_year = year;
     timeinfo.tm_mon = month;
     timeinfo.tm_mday = day;
     timeinfo.tm_hour = hour;
     timeinfo.tm_min = minutes;
-    //this->weekDay = weekday[timeinfo->tm_wday];
     return timeinfo;
 }
 void event::setName(string name)
@@ -78,6 +75,8 @@ string event::getPlace()
 
 bool event::getDone()
 {
+    if (dateTimeGenerator::compTime(this->endDate, dateTimeGenerator::getDateTime()) == -1)
+        this->done = true;
     return this->done;
 }
 bool event::getReminded()

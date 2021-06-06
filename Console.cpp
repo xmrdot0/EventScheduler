@@ -73,6 +73,7 @@ void Console::Login()
 
 void Console::driver()
 {
+    fileManager::writeUsers(this->users);
     fileManager::readEvents(this->usr.events, usr.getName());
     bool exit = false;
     while (!exit)
@@ -92,13 +93,12 @@ void Console::driver()
             disp_event();
             break;
         case 5:
-            disp_done_event(); //this crashes program 
+            disp_done_event();
             break;
         case 6:
             exit = true;
             break;
         }
-        //not working
         this->usr.checkDoneEvents();
         this->usr.checkReminders();
     }
@@ -299,6 +299,7 @@ void Console::add_event()
     if (canBeAdded(e, this->usr.events))
     {
         this->usr.addEvent(e);
+        cout << "Added!" << endl;
     }
     else {
         cout << "***ERROR! conflicting with existing events***";
@@ -315,7 +316,7 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
     int currHour = t.tm_hour;
     int currMin = t.tm_min;
     if (
-        (month > 12) || (month < 1) || (day < 1) || (day > 31) || (minutes < 0) || (hours < 0) ||
+        (month > 12) || (month < 1) || (day < 1) || (day > 31) || (minutes < 0) || (hours < 0) || (hours > 24)||
         (year < currYr) || 
         ((year == currYr) && (month < currMon)) ||
         ((year == currYr) && (month == currMon) && (day < currD)) ||
@@ -369,7 +370,7 @@ void Console::disp_event() {
     int startDate;
     while (true)
     {
-        cout << "Press 0 to sort by start date or 1 to sort by reminder date" << endl;
+        cout << "Press 0 to sort by start date or 1 to sort by reminder date: ";
         cin >> startDate;
         if (startDate == 1) {
             sort(this->usr.events.begin(), this->usr.events.end(), sortbyReminderComparator);
@@ -385,11 +386,28 @@ void Console::disp_event() {
 }
 
 void Console::update_event() {
+
     if (this->usr.events.empty()) {
         cout << "\nYou do not have any events to update!\n";
         return;
     }
-    event e;
+    cout << "Your events: \n";
+    for (int i = 0; i < this->usr.events.size(); i++) {
+        cout << i + 1 << "- ";
+        this->usr.events[i].getInfo();
+        cout << endl;
+    }
+    cout << "Enter number of event to update: ";
+    int num;
+    cin >> num;
+    while (num<0 || num > this->usr.events.size()) {
+        cout << "Enter valid number: ";
+        cin >> num;
+    }
+    num--;
+    usr.updateEvent(this->usr.events[num]);
+
+   /* event e;
     cout << "Please Enter The Event Name" << endl;
     string name; cin >> name;
     cout << "Please Enter The Event Place" << endl;
@@ -408,7 +426,7 @@ void Console::update_event() {
     cin >> minutes;
     e.setStartDate(day, month, year, hour, minutes);
     e.setName(name);
-
     usr.updateEvent(e);
+   */
 }
 Console::~Console() {}

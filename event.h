@@ -10,7 +10,6 @@ class event
     bool done;
     bool reminded;
 
-    string weekDay;
     struct tm startDate;
     struct tm endDate;
     struct tm reminderDate;

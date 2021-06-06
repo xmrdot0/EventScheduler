@@ -19,7 +19,6 @@ int main()
     Console c(users);
    
     //save data
-    fileManager::writeUsers(c.users);
     fileManager::writeEvents(c.usr.events,c.usr.getName());
 
 }
