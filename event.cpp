@@ -83,10 +83,7 @@ bool event::getReminded()
 {
     return this->reminded;
 }
-bool event::operator==(const event& e) const
-{
-    return (this->place == e.place && this->name == e.name);
-}
+
 void event::setReminded()
 {
     this->reminded = true;

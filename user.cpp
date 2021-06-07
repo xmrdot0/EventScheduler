@@ -100,6 +100,7 @@ void user::updateEvent(event &e) {
 }
 
 void user::displayEvents() {
+    cout << endl << "Your events:\n";
     for (event ev : this->events)
     {
         ev.getInfo();
@@ -122,14 +123,14 @@ void user::displayDoneEvents(stack<event> s)
 
 void user::checkReminders()
 {
-    for (int i = 0; i < this->events.size(); i++) {
-
-        if (this->events[i].getReminded() && (dateTimeGenerator::compTime(this->events[i].getReminderDate(), dateTimeGenerator::getDateTime()) != 1)
-            && (dateTimeGenerator::compTime(this->events[i].getStartDate(), dateTimeGenerator::getDateTime()) != -1))
+    for (int i = 0; i < events.size(); i++)
+    {
+        if (events[i].getReminded() == false && (dateTimeGenerator::compTime(events[i].getReminderDate(), dateTimeGenerator::getDateTime()) != 1)
+            && (dateTimeGenerator::compTime(events[i].getStartDate(), dateTimeGenerator::getDateTime()) != -1))
         {
-            this->events[i].setReminded();
-            cout << "\n***REMINDER!***\n";
-            this->events[i].getInfo();
+            cout << "\nREMINDER!\n";
+            events[i].setReminded();
+            events[i].getInfo();
         }
     }
 }

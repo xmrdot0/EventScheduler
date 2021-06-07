@@ -41,6 +41,6 @@ public:
     void getInfo();
     bool getDone();
     bool getReminded();
-    bool operator== (const event& e)const;
+    //bool operator== (const event& e)const;
 };
 #endif

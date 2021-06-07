@@ -12,6 +12,7 @@
 
 using namespace std;
 bool sortComparator(event e1, event e2) {
+    //sort by start date
     if (dateTimeGenerator::compTime(e1.getStartDate(), e2.getStartDate()) == 1)
         return 0;
     return 1;
@@ -96,6 +97,8 @@ void Console::driver()
             disp_done_event();
             break;
         case 6:
+            break;
+        case 7:
             exit = true;
             break;
         }
@@ -109,11 +112,12 @@ int Console::mainMenu()
     cout << endl
          << "Options:" << endl;
     cout << "1. Add Event" << endl
-         << "2. Update event" << endl
-         << "3. Delete event" << endl
-         << "4. Display upcoming events" << endl
-         << "5. Display done events" << endl 
-         << "6. Exit" << endl;
+        << "2. Update event" << endl
+        << "3. Delete event" << endl
+        << "4. Display upcoming events" << endl
+        << "5. Display done events" << endl
+        << "6. Refresh" << endl
+        << "7. Exit" << endl;
     cout << "Enter Your Choice: ";
 
     cin >> input;
@@ -297,7 +301,7 @@ void Console::add_event()
     }
     sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
     if (canBeAdded(e, this->usr.events))
-    {
+    { 
         this->usr.addEvent(e);
         cout << "Added!" << endl;
     }
@@ -403,27 +407,5 @@ void Console::update_event() {
     }
     num--;
     usr.updateEvent(this->usr.events[num]);
-
-   /* event e;
-    cout << "Please Enter The Event Name" << endl;
-    string name; cin >> name;
-    cout << "Please Enter The Event Place" << endl;
-    string place; cin >> place;
-    cout << "Please Enter The Event Start Date :" << endl;
-    cout << "Day:" << endl;
-    int day, month, year, hour, minutes;
-    cin >> day;
-    cout << "Month:" << endl;
-    cin >> month;
-    cout << "Year" << endl;
-    cin >> year;
-    cout << "Hour:" << endl;
-    cin >> hour;
-    cout << "Minutes:" << endl;
-    cin >> minutes;
-    e.setStartDate(day, month, year, hour, minutes);
-    e.setName(name);
-    usr.updateEvent(e);
-   */
 }
 Console::~Console() {}
