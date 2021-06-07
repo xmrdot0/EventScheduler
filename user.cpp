@@ -10,10 +10,17 @@ using namespace std;
 void user::addEvent(event e) {
     this->events.push_back(e);
 }
+void user::deleteEvent(int idx) {
+    this->events.erase(this->events.begin() + idx);
+}
 
-void user::deleteEvent(event e) {}
- 
-void user::updateEvent(event e) {
+string user::getName() { return this->userName; }
+string user::getPassword() { return this->password; }
+
+void user::setName(string name) { this->userName = name; }
+void user::setPassword(string password) { this->password = password; }
+
+void user::updateEvent(event &e) {
     int c;
     cout << "Options: \n";
     cout << "1: Update The Name" << endl << "2: Update The Place" << endl
@@ -100,13 +107,10 @@ void user::displayEvents() {
     }
 }
 
-string user::getName() { return this->userName; }
-string user::getPassword() { return this->password; }
-
-void user::setName(string name) { this->userName = name; }
-void user::setPassword(string password) { this->password = password; }
 void user::displayDoneEvents(stack<event> s)
 {
+    if (s.empty())
+        cout << "EMPTY";
     while (!s.empty())
     {
         event e = s.top();
@@ -118,25 +122,23 @@ void user::displayDoneEvents(stack<event> s)
 
 void user::checkReminders()
 {
-    for (event ev : this->events)
-        //if reminder time not greater than curr date
-    {   //&& !ev.getReminded()
-        if (dateTimeGenerator::compTime(ev.getReminderDate(), dateTimeGenerator::getDateTime()) != 1)
+    for (int i = 0; i < this->events.size(); i++) {
+
+        if (this->events[i].getReminded() && (dateTimeGenerator::compTime(this->events[i].getReminderDate(), dateTimeGenerator::getDateTime()) != 1)
+            && (dateTimeGenerator::compTime(this->events[i].getStartDate(), dateTimeGenerator::getDateTime()) != -1))
         {
-            ev.setReminded();
+            this->events[i].setReminded();
             cout << "\n***REMINDER!***\n";
-            ev.getInfo();
+            this->events[i].getInfo();
         }
     }
-} 
+}
 void user::checkDoneEvents()
 {
-    for (auto it = events.begin(); it != events.end(); ++it)
-    {
-        if ((*it).getDone() == true)
-        {
-            doneEvents.push(*it);
-            events.erase(it);
+    for (int i = 0; i < this->events.size(); i++) {
+        if (this->events[i].getDone()) {
+            this->doneEvents.push(this->events[i]);
+            events.erase(this->events.begin() + i);
         }
     }
 }

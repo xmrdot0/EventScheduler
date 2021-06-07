@@ -346,14 +346,11 @@ void Console::del_event() {
         cin >> num;
     }
     num--;
-    this->usr.events.erase(this->usr.events.begin() + num);
+    this->usr.deleteEvent(num);
     cout << "Successfully deleted event!" << endl;
 }
 void Console::disp_done_event() {
-    if (this->usr.events.empty()) {
-        cout << "\nYou do not have any done events!\n";
-        return;
-    }
+
     this->usr.checkDoneEvents();
     if (this->usr.doneEvents.empty()) {
         cout << "\nYou do not have any done events!\n";

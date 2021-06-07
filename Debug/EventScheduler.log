@@ -1,2 +1,9 @@
-﻿  user.cpp
+﻿  Console.cpp
+C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(109,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\fileManager.cpp(145,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(30,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(336,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(344,25): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(392,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Youssef\source\repos\EventScheduler\Console.cpp(400,25): warning C4018: '>': signed/unsigned mismatch
   EventScheduler.vcxproj -> C:\Users\Youssef\source\repos\EventScheduler\Debug\EventScheduler.exe
