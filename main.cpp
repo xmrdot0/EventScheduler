@@ -12,14 +12,22 @@ using namespace std;
 int main()
 {
     //preprocessing
-    vector<user> users;
-    fileManager::readUsers(users);
+   vector<user> users;
+   fileManager::readUsers(users);
 
     //main program
     Console c(users);
    
     //save data
-    fileManager::writeUsers(c.users);
-    fileManager::writeEvents(c.usr.events,c.usr.getName());
-
+     fileManager::writeUsers(c.users);
+     fileManager::writeEvents(c.usr.events,c.usr.getName());
+    /*event e;
+    e.setName("A");
+    e.setPlace("B");
+    event s;
+    s.setName("A");
+    s.setPlace("B");
+    if (s == e)
+        cout << "masr" << endl;
+    else { cout << "israel"; }*/
 }

@@ -19,10 +19,8 @@ class user
 public:
     vector<event> events;
     stack<event> doneEvents;
-    void update_menu(event& e);
     void addEvent(event e);
-    void deleteEvent(event e);
-    void updateEvent(event e);
+  //  void deleteEvent(event e);
     void displayDoneEvents(stack<event> s);
     void displayEvents();
     void setName(string name);

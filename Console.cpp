@@ -49,18 +49,21 @@ void Console::Login()
         string username, password;
         cout << "Enter username: ";
         cin >> username;
+        getline(cin,username);
         cout << "Enter password: ";
         cin >> password;
-
-        for (user u : users) {
-            if (u.getName() == username && u.getPassword() == password)
+        getline(cin, password);
+        int i;
+        for (i=0 ; i < users.size(); i++) {
+            if (users[i].getName() == username && users[i].getPassword() == password)
             {
                 success = true;
-                this->usr = u;
+                this->usr = users[i];
                 break;
             }
         }
         if (success) {
+            now = i;
             break;
         }
         else {
@@ -73,7 +76,7 @@ void Console::Login()
 
 void Console::driver()
 {
-    fileManager::readEvents(this->usr.events, usr.getName());
+    fileManager::readEvents(this->users[now].events, users[now].getName());
     bool exit = false;
     while (!exit)
     {
@@ -83,7 +86,7 @@ void Console::driver()
             add_event();
             break;
         case 2:
-            update_event();
+            updateEvent();
             break;
         case 3:
             del_event();
@@ -98,9 +101,9 @@ void Console::driver()
             exit = true;
             break;
         }
-        //not working
-        this->usr.checkDoneEvents();
-        this->usr.checkReminders();
+   
+        this->users[now].checkDoneEvents();
+        this->users[now].checkReminders();
     }
 }
 int Console::mainMenu()
@@ -129,14 +132,16 @@ void Console::Register()
 {
     string username, password;
     while (true) {
-        cout << "Enter a username: ";
+        cout << "Enter Name: ";
         cin >> username;
-        cout << "Enter a password: ";
+        cout << "Enter password: ";
         cin >> password;
+       
 
+        int i;
         bool found = false;
-        for (user u : this->users) {
-            if (u.getName() == username)
+        for ( i = 0; i<this->users.size() ; i++) {
+            if (users[i].getName() == username)
             {
                 found = true;
                 cout << "\n***User name already exists! please pick another one ***" << endl;
@@ -144,6 +149,7 @@ void Console::Register()
             }
         }
         if (!found) {
+            now = i;
             break;
         }
     }
@@ -295,10 +301,11 @@ void Console::add_event()
             }
         }
     }
-    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
-    if (canBeAdded(e, this->usr.events))
+    sort(this->users[now].events.begin(), this->users[now].events.end(), sortComparator);
+    if (canBeAdded(e, this->users[now].events))
     {
-        this->usr.addEvent(e);
+        this->users[now].addEvent(e);
+   //     this->users[now] = usr;
     }
     else {
         cout << "***ERROR! conflicting with existing events***";
@@ -325,43 +332,21 @@ bool Console::check_date(int day, int month, int year, int minutes, int hours)
 
     return 1;
 }
-void Console::del_event() {
-    if (this->usr.events.empty()) {
-        cout << "\nYou do not have any events to delete!\n";
-        return;
-    }
-    sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
-    cout << "\nYour Events: \n";
-    for (int i = 0; i < this->usr.events.size(); i++) {
-        cout << i + 1 << "- ";
-        this->usr.events[i].getInfo();
-        cout << endl;
-    }
-    cout << "Enter number of event to delete: ";
-    int num;
-    cin >> num;
-    while (num<=0 || num>this->usr.events.size()) {
-        cout << "Enter valid number: ";
-        cin >> num;
-    }
-    num--;
-    this->usr.events.erase(this->usr.events.begin() + num);
-    cout << "Successfully deleted event!" << endl;
-}
 void Console::disp_done_event() {
-    if (this->usr.events.empty()) {
+    if (this->users[now].doneEvents.empty()) {
         cout << "\nYou do not have any done events!\n";
         return;
     }
-    this->usr.checkDoneEvents();
-    if (this->usr.doneEvents.empty()) {
+   /* this->usr.checkDoneEvents();
+    if (this->users[now].doneEvents.empty()) {
         cout << "\nYou do not have any done events!\n";
         return;
-    }
-    this->usr.displayDoneEvents(this->usr.doneEvents);
+    }*/
+
+    this->users[now].displayDoneEvents(this->users[now].doneEvents);
 }
 void Console::disp_event() { 
-    if (this->usr.events.empty())
+    if (this->users[now].events.empty())
     {
         cout << "\nYou do not have any upcoming events!\n";
         return;
@@ -372,43 +357,188 @@ void Console::disp_event() {
         cout << "Press 0 to sort by start date or 1 to sort by reminder date" << endl;
         cin >> startDate;
         if (startDate == 1) {
-            sort(this->usr.events.begin(), this->usr.events.end(), sortbyReminderComparator);
+            sort(this->users[now].events.begin(), this->users[now].events.end(), sortbyReminderComparator);
             break;
         }
         else if (startDate == 0) {
-            sort(this->usr.events.begin(), this->usr.events.end(), sortComparator);
+            sort(this->users[now].events.begin(), this->users[now].events.end(), sortComparator);
             break;
         }
     }
 
-    this->usr.displayEvents();
+    this->users[now].displayEvents();
 }
 
-void Console::update_event() {
-    if (this->usr.events.empty()) {
-        cout << "\nYou do not have any events to update!\n";
+void  Console::updateEvent() {
+   
+    event e;
+        cout << "Please Enter The Event Name" << endl;
+        string name; cin >> name;
+        e.setName(name);
+        cout << "Please Enter The Event Place" << endl;
+        string place; cin >> place;
+        e.setPlace(place);
+
+    if (this->users[now].events.empty()) {
+                cout << "\nYou do not have any events to update!\n";
+                return;
+            }
+
+       bool found = true;
+       for (int i=0 ; i<users[now].events.size() ; i++)
+       {
+           if (users[now].events[i]==e)
+              this->update_menu(users[now].events[i],i);
+          
+         else
+           found=false;
+       }
+       if (!found)
+       cout<<"Sorry... This event doesn't exist !"<<endl;
+    
+    }
+
+void Console:: update_menu(event &e, int x){
+   int c; 
+    cout <<"Please Enter Your choice:";
+    cout<<"1: Update The Name"<<endl<<"2: Update The Place"<<endl
+    <<"3: Update The Start Date"<<endl
+    <<"4: Update The End date"<<endl
+    <<"5: Update The Reminder date"<<endl;
+    cin>>c;
+    while (c < 1 || c > 5)
+    {
+        cout << "Invalid choice please try again" << endl;
+        cout << "Enter Your Choice: ";
+        cin >> c;
+    }
+      
+    string name;
+    int day, month, year, hour, minutes;
+    switch (c)
+    {
+        
+    case 1:
+        cout<<"Enter The New name"<<endl;
+        cin>>name;
+        users[now].events[x].setName(name);
+        cout << "Updated..." << endl;
+        break;
+    case 2:
+        cout<<"Enter The New Place"<<endl;
+        cin>>name;
+        users[now].events[x].setPlace(name);
+        cout << "Updated..." << endl;
+        break;
+    case 3:
+       cout<<"Enter The day"<<endl;
+       cin>>day;
+       cout<<"Enter The Month"<<endl;
+       cin>>month;
+       cout<<"Enter The Year"<<endl;
+       cin>>year;
+       cout<<"Enter The Hour"<<endl;
+       cin>>hour;
+       cout<<"Enter The Minute"<<endl;
+       cin >> minutes;
+       users[now].events[x].setStartDate( day,  month, year, hour, minutes);
+       cout << "Updated..." << endl;
+        break;
+    case 4:
+        cout << "Enter The day" << endl;
+        cin >> day;
+        cout << "Enter The Month" << endl;
+        cin >> month;
+        cout << "Enter The Year" << endl;
+        cin >> year;
+        cout << "Enter The Hour" << endl;
+        cin >> hour;
+        cout << "Enter The Minute" << endl;
+        cin >> minutes;
+        cout << "Updated..." << endl;
+        users[now].events[x].setEndDate(day, month,  year, hour,minutes);
+        break;  
+    case 5:
+        cout << "Enter The day" << endl;
+        cin >> day;
+        cout << "Enter The Month" << endl;
+        cin >> month;
+        cout << "Enter The Year" << endl;
+        cin >> year;
+        cout << "Enter The Hour" << endl;
+        cin >> hour;
+        cout << "Enter The Minute" << endl;
+        cin >> minutes;       
+        users[now].events[x].setStartDate(day, month, year, hour, minutes);
+        cout << "Updated..." << endl;
+        break;   
+
+    }
+}
+
+
+
+
+
+
+void Console::del_event() {
+
+    event e;
+    cout << "Please Enter The Event Name That You Want To Delete:" << endl;
+    string name; cin >> name;
+    e.setName(name);
+    cout << "Please Enter The Event Place That You Want To Delete:" << endl;
+    string place; cin >> place;
+    e.setPlace(place);
+
+    if (this->users[now].events.empty()) {
+        cout << "\nYou do not have any events to Delete!\n";
         return;
     }
-    event e;
-    cout << "Please Enter The Event Name" << endl;
-    string name; cin >> name;
-    cout << "Please Enter The Event Place" << endl;
-    string place; cin >> place;
-    cout << "Please Enter The Event Start Date :" << endl;
-    cout << "Day:" << endl;
-    int day, month, year, hour, minutes;
-    cin >> day;
-    cout << "Month:" << endl;
-    cin >> month;
-    cout << "Year" << endl;
-    cin >> year;
-    cout << "Hour:" << endl;
-    cin >> hour;
-    cout << "Minutes:" << endl;
-    cin >> minutes;
-    e.setStartDate(day, month, year, hour, minutes);
-    e.setName(name);
 
-    usr.updateEvent(e);
+    bool found = true;
+    for (int i = 0; i < users[now].events.size(); i++)
+    {
+        if (users[now].events[i] == e)
+        {
+            users[now].doneEvents.push(users[now].events[i]);
+            this->users[now].events.erase(this->users[now].events.begin() + i);
+            cout << "Successfully deleted event!" << endl;
+            break;
+        }
+        else
+            found = false;
+    }
+    if (!found)
+        cout << "Sorry... This event doesn't exist !" << endl;
+
 }
+
+
+
+//void Console::del_event() {
+//    if (this->users[now].events.empty()) {
+//        cout << "\nYou do not have any events to delete!\n";
+//        return;
+//    }
+//    sort(this->users[now].events.begin(), this->users[now].events.end(), sortComparator);
+//    cout << "\nYour Events: \n";
+//    for (int i = 0; i < this->users[now].events.size(); i++) {
+//        cout << i + 1 << "- ";
+//        this->users[now].events[i].getInfo();
+//        cout << endl;
+//    }
+//    cout << "Enter number of event to delete: ";
+//    int num;
+//    cin >> num;
+//    while (num<=0 || num>this->users[now].events.size()) {
+//        cout << "Enter valid number: ";
+//        cin >> num;
+//    }
+//    num--;
+//    this->users[now].events.erase(this->users[now].events.begin() + num);
+//  //  this->users[now] = usr;
+//    cout << "Successfully deleted event!" << endl;
+//}
+
 Console::~Console() {}
