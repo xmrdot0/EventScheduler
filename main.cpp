@@ -11,8 +11,8 @@ using namespace std;
 int main()
 {
     //preprocessing
-    vector<user> users;
-    fileManager::readUsers(users);
+   vector<user> users;
+   fileManager::readUsers(users);
 
     //main program
     Console c(users);

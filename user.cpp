@@ -10,15 +10,32 @@ using namespace std;
 void user::addEvent(event e) {
     this->events.push_back(e);
 }
-void user::deleteEvent(int idx) {
-    this->events.erase(this->events.begin() + idx);
+
+//void user::deleteEvent(event e) {}
+ 
+void user::displayEvents() {
+    for (event ev : this->events)
+    {
+        ev.getInfo();
+        cout << endl;
+    }
 }
 
-string user::getName() { return this->userName; }
-string user::getPassword() { return this->password; }
-
-void user::setName(string name) { this->userName = name; }
-void user::setPassword(string password) { this->password = password; }
+     else
+       found=false;
+   }
+   if (!found)
+   cout<<"Sorry... This event doesn't exist !"<<endl;
+void user::displayDoneEvents(stack<event> s)
+{
+    while (!s.empty())
+    {
+        event e = s.top();
+        e.getInfo();
+        cout << endl;
+        s.pop();
+    }
+}
 
 void user::updateEvent(event &e) {
     int c;
@@ -141,5 +158,159 @@ void user::checkDoneEvents()
             this->doneEvents.push(this->events[i]);
             events.erase(this->events.begin() + i);
         }
+    }
+}
+void user::checkReminders()
+{
+    for (event ev : this->events)
+    {
+        //if reminder time not greater than curr date
+        if (ev.getReminded()==false && (dateTimeGenerator::compTime(ev.getReminderDate(), dateTimeGenerator::getDateTime()) != 1))
+        {
+            cout << "\n***REMINDER!***\n";
+            ev.getInfo();
+            ev.setReminded();
+            cout << "look: " << ev.getReminded() << endl;
+        }
+    }
+} 
+void user::checkDoneEvents()
+{
+    
+    for (auto it = events.begin(); it != events.end() ; ++it)
+    {
+        if ((*it).getDone() == true)
+        {
+            doneEvents.push(*it);
+            events.erase(it);
+            break;
+            
+        }
+    }
+}
+//this shouldnt be here @youssef ayman, need to validate new input
+//void user:: update_menu(event &e){
+//   int c; 
+//    cout <<"Please Enter Your choice:";
+//    cout<<"1: Update The Name"<<endl<<"2: Update The Place"<<endl
+//    <<"3: Update The Start Date"<<endl
+//    <<"4: Update The End date"<<endl
+//    <<"5: Update The Reminder date"<<endl;
+//    cin>>c;
+//    while (c < 1 || c > 5)
+//    {
+//        cout << "Invalid choice please try again" << endl;
+//        cout << "Enter Your Choice: ";
+//        cin >> c;
+//    }
+//      
+//    string name;
+//    int day, month, year, hour, minutes;
+//    switch (c)
+//    {
+//        
+//    case 1:
+//        cout<<"Enter The New name"<<endl;
+//        cin>>name;
+//        e.setName(name);
+//        cout << "Updated..." << endl;
+//        break;
+//    case 2:
+//        cout<<"Enter The New Place"<<endl;
+//        cin>>name;
+//        e.setPlace(name);
+//        cout << "Updated..." << endl;
+//        break;
+//    case 3:
+//       cout<<"Enter The day"<<endl;
+//       cin>>day;
+//       cout<<"Enter The Month"<<endl;
+//       cin>>month;
+//       cout<<"Enter The Year"<<endl;
+//       cin>>year;
+//       cout<<"Enter The Hour"<<endl;
+//       cin>>hour;
+//       cout<<"Enter The Minute"<<endl;
+//       cin >> minutes;
+//       e.setStartDate( day,  month, year, hour, minutes);
+//       cout << "Updated..." << endl;
+//        break;
+//    case 4:
+//        cout << "Enter The day" << endl;
+//        cin >> day;
+//        cout << "Enter The Month" << endl;
+//        cin >> month;
+//        cout << "Enter The Year" << endl;
+//        cin >> year;
+//        cout << "Enter The Hour" << endl;
+//        cin >> hour;
+//        cout << "Enter The Minute" << endl;
+//        cin >> minutes;
+//        cout << "Updated..." << endl;
+//        e.setEndDate(day, month,  year, hour,minutes);
+//        break;  
+//    case 5:
+//        cout << "Enter The day" << endl;
+//        cin >> day;
+//        cout << "Enter The Month" << endl;
+//        cin >> month;
+//        cout << "Enter The Year" << endl;
+//        cin >> year;
+//        cout << "Enter The Hour" << endl;
+//        cin >> hour;
+//        cout << "Enter The Minute" << endl;
+//        cin >> minutes;       
+//        e.setStartDate(day, month, year, hour, minutes);
+//        cout << "Updated..." << endl;
+//        break;   
+//
+//    }
+//}
+        e.setPlace(name);
+        cout << "Updated..." << endl;
+        break;
+    case 3:
+       cout<<"Enter The day"<<endl;
+       cin>>day;
+       cout<<"Enter The Month"<<endl;
+       cin>>month;
+       cout<<"Enter The Year"<<endl;
+       cin>>year;
+       cout<<"Enter The Hour"<<endl;
+       cin>>hour;
+       cout<<"Enter The Minute"<<endl;
+       cin >> minutes;
+       e.setStartDate( day,  month, year, hour, minutes);
+       cout << "Updated..." << endl;
+        break;
+    case 4:
+        cout << "Enter The day" << endl;
+        cin >> day;
+        cout << "Enter The Month" << endl;
+        cin >> month;
+        cout << "Enter The Year" << endl;
+        cin >> year;
+        cout << "Enter The Hour" << endl;
+        cin >> hour;
+        cout << "Enter The Minute" << endl;
+        cin >> minutes;
+        cout << "Updated..." << endl;
+        e.setEndDate(day, month,  year, hour,minutes);
+        break;  
+    case 5:
+        cout << "Enter The day" << endl;
+        cin >> day;
+        cout << "Enter The Month" << endl;
+        cin >> month;
+        cout << "Enter The Year" << endl;
+        cin >> year;
+        cout << "Enter The Hour" << endl;
+        cin >> hour;
+        cout << "Enter The Minute" << endl;
+        cin >> minutes;       
+        e.setStartDate(day, month, year, hour, minutes);
+        cout << "Updated..." << endl;
+        break;   
+
     }
 }

@@ -20,8 +20,7 @@ public:
     vector<event> events;
     stack<event> doneEvents;
     void addEvent(event e);
-    void deleteEvent(int idx);
-    void updateEvent(event &e);
+  //  void deleteEvent(event e);
     void displayDoneEvents(stack<event> s);
     void displayEvents();
     void setName(string name);
